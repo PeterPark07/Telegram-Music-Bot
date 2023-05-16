@@ -27,6 +27,6 @@ def download(url):
             response = "File larger than 50 MB."
             os.remove(filepath)
             return response , None
-        return "Download successful.", filepath
+        return None , filepath
    except:
     return 'Could not download file' , None
