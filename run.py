@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-from helper.music import search , download
+from helper.music import search , download , delete
 from helper.telegram import sendMessage
 
 app = Flask(__name__)
@@ -30,6 +30,7 @@ def telegram():
         return 'Fail' , 200
     
     sendMessage(sender_id, str(path))
+    delete(path)
     
     return 'OK', 200
 
