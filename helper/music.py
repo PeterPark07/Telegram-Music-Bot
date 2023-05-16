@@ -32,4 +32,4 @@ def download(url):
     return 'Could not download file' , None
   
 def delete(path):
-  os.remove(filepath)
+  os.remove(path)
