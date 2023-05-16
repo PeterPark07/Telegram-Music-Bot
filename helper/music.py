@@ -30,3 +30,6 @@ def download(url):
         return None , filepath
   except:
     return 'Could not download file' , None
+  
+def delete(path):
+  os.remove(filepath)
