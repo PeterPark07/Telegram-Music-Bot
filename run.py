@@ -1,5 +1,8 @@
 from flask import Flask, request
 
+from helper.music import search , download
+from helper.telegram import sendMessage
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -10,11 +13,23 @@ def home():
 def telegram():
 
     message = request.get_json()['message']
-    
     sender_id = message['from']['id']
     text = message['text']
     
-    sendMessage(sender_id, text)
+    response , url = search(text)
+    
+    sendMessage(sender_id, response)
+    
+    if not url:
+        return 'Fail' , 200
+    
+    response , path = download(url)
+    
+    if not path :
+        sendMessage(sender_id, response)
+        return 'Fail' , 200
+    
+    sendMessage(sender_id, str(path))
     
     return 'OK', 200
 
