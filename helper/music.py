@@ -1,5 +1,5 @@
 import yt_dlp as youtube_dl
-from youtube-search-python import VideosSearch
+from youtubesearchpython import VideosSearch
 import os
 
 ytdl_opts = {'format': 'bestaudio/best',
