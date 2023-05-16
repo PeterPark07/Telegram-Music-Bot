@@ -28,5 +28,5 @@ def download(url):
             os.remove(filepath)
             return response , None
         return None , filepath
-   except:
+  except:
     return 'Could not download file' , None
