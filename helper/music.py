@@ -1,4 +1,4 @@
-import yt-dlp as youtube_dl
+import yt_dlp as youtube_dl
 from youtube-search-python import VideosSearch
 import os
 
