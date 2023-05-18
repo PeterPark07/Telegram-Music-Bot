@@ -23,14 +23,14 @@ def telegram():
     if not url:
         return 'Fail' , 200
     
-    response , audio_url , name = download_audio(url)
+    response , audio_file , name = download_audio(url)
     
-    if not audio_url :
+    if not audio_file :
         sendMessage(sender_id, response)
         return 'Fail' , 200
     
-    sendMessage(sender_id, str(audio_url))
-    sendAudio(sender_id, audio_url , name)
+    sendMessage(sender_id, str(audio_file))
+    sendAudio(sender_id, audio_file , name)
     
     return 'OK', 200
 
