@@ -1,5 +1,11 @@
 import yt_dlp as youtube_dl
 from youtubesearchpython import VideosSearch
+import os
+
+ytdl_opts = {'format': 'bestaudio/best',
+             'postprocessors': [{'key': 'FFmpegExtractAudio',
+                                 'preferredcodec': 'm4a',
+                                 'preferredquality': 'best'}]}
 
 def search(query):
   search = VideosSearch(query, limit=1)
@@ -13,14 +19,13 @@ def search(query):
 
 def download_audio(url):
   try:
-    with youtube_dl.YoutubeDL() as ydl:
-        info = ydl.extract_info(url, download=False)
-        formats = info['formats']
-        audio_formats = [f for f in formats if f.get('vcodec') == 'none']
-        download_url = audio_formats[-2].get('url')
-        extension = audio_formats[-2].get('ext')
-        video_title = info.get('title')
-        video_title_with_extension = f"{video_title}.{extension}"
-        return None , download_url , video_title_with_extension 
+    with youtube_dl.YoutubeDL(ytdl_opts) as ydl:
+        info = ydl.extract_info(url, download=True)
+        filepath = info['requested_downloads'][0]['filepath']
+        file_size = os.path.getsize(filepath)
+        if file_size > 49 * 1024 * 1024:
+            os.remove(filepath)
+            return 'File larger than 50 MB.', None, None
+        return None , filepath , None
   except:
     return 'Could not download file', None, None
