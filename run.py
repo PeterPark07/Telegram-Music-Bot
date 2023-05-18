@@ -16,11 +16,12 @@ def telegram():
     sender_id = message['from']['id']
     text = message['text']
     
-    response , url = search(text)
+    res , url = search(text)
     
-    sendMessage(sender_id, response)
+    sendMessage(sender_id, res)
     
     if not url:
+        sendMessage(sender_id, 'Could not download')
         return 'Fail' , 200
     
     response , audio_file , name = download_audio(url)
