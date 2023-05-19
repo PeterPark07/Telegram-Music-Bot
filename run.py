@@ -23,6 +23,7 @@ def telegram():
     audio , url = search(text)
     
     bot.send_message(sender_id, audio)
+    bot.send_message(sender_id, url)
     
     if not url:
         bot.send_message(sender_id, 'Could not download')
