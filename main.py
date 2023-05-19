@@ -10,20 +10,17 @@ state = True
 
 @app.route('/', methods=['POST'])
 def telegram():
+    global state
     # Retrieve message details from the request
     sender_id , text = resolve(request.get_json())
     
-    global state
-    print(state)
-    if not state :
-        if text == '/on':
-            state = True
-        else:
-            return 'OK', 200
-   
-    send = commands(text)
+    send = commands(text , state)
     if send != 0:
         bot.send_message(sender_id, send)
+        return 'OK', 200
+
+    print(state)
+    if not state :
         return 'OK', 200
     
     # Search for music and retrieve necessary information
