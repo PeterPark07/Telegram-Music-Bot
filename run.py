@@ -32,9 +32,12 @@ def telegram():
     bot.send_message(sender_id, duration)
     bot.send_message(sender_id, thumbnail)
     try:
-        bot.sendPhoto(sender_id, thumbnail, caption="This is a photo.")
+        bot.send_photo(sender_id, thumbnail, caption="This is a photo.")
+    except Exception as e:
+        bot.send_message(sender_id, f"An error occurred while sending the photo: {str(e)}")
+        return 'Fail', 200
     
-    response , audio_file = download_audio(url)
+    response, audio_file = download_audio(url)
     
     if not audio_file :
         bot.send_message(sender_id, response)
