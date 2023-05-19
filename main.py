@@ -6,7 +6,7 @@ from helper.music import search, download_audio
 app = Flask(__name__)
 bot = Bot(os.getenv('TELEGRAM_BOT'))
 
-@app.route('/download', methods=['POST'])
+@app.route('/', methods=['POST'])
 def telegram():
     # Retrieve message details from the request
     message = request.get_json()['message']
