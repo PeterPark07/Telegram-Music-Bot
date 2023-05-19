@@ -25,7 +25,7 @@ def download_audio(url):
         file_size = os.path.getsize(filepath)
         if file_size > 49 * 1024 * 1024:
             os.remove(filepath)
-            return 'File larger than 50 MB.', None, None
-        return None , filepath , None
+            return 'File larger than 50 MB.', None
+        return None , filepath 
   except:
-    return 'Could not download file', None, None
+    return 'Could not download file', None
