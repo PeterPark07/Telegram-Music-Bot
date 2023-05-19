@@ -2,18 +2,20 @@ import os
 from flask import Flask, request
 from telegram.bot import Bot
 from helper.music import search, download_audio
-from helper.common import commands
+from helper.common import commands , resolve
 
 app = Flask(__name__)
 bot = Bot(os.getenv('TELEGRAM_BOT'))
+state = True
 
 @app.route('/', methods=['POST'])
 def telegram():
     # Retrieve message details from the request
-    message = request.get_json()['message']
-    sender_id = message['from']['id']
-    text = message['text']
+    sender_id , text = resolve(request.get_json())
     
+    if state == False:
+            return 'OK', 200
+   
     send = commands(text)
     if send != 0:
         bot.send_message(sender_id, send)
