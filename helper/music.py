@@ -33,9 +33,7 @@ def download_audio(url):
         with youtube_dl.YoutubeDL(ytdl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
             file = info['requested_downloads'][0]
-            print(file)
-            print('=' * 80)
-            thumbnail = [i for i in info['thumbnails'] if thumbnail['url'].endswith('.jpg')][-1]
+            thumbnail = [i for i in info['thumbnails'] if i['url'].endswith('.jpg')][-1]
             print(thumbnail)
 
             if file['filesize'] > 49 * 1024 * 1024:
