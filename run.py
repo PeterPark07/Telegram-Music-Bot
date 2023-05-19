@@ -24,8 +24,9 @@ def telegram():
     # Send the title, duration, and URL as a message
     bot.send_message(sender_id, f"{title}\n\n{duration}\n\n{url}")
     
+    # Unquote to send the thumbnail with the title as the caption
+'''
     try:
-        # Attempt to send the thumbnail with the title as the caption
         bot.send_photo(sender_id, thumbnail, caption=title)
     except Exception as e:
         try:
@@ -33,7 +34,7 @@ def telegram():
         except Exception as e:
             # If fail, send a message indicating no thumbnail is available
             bot.send_message(sender_id, "No thumbnail available.")
-    
+'''
     # Download the audio file
     response, audio_file = download_audio(url)
     
