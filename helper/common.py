@@ -13,7 +13,7 @@ def commands(text , state):
         return on
     if text == '/off':
         state = False
-        return 0
+        return off
     else:
         return 0
 
