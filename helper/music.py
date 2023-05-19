@@ -26,13 +26,8 @@ def search(query):
     url = selected_video['link']
     title = selected_video['title']
     duration = selected_video['accessibility']['duration']
-    thumbnail = selected_video['thumbnails'][0]['url']
-    try :
-      thumbnail2 = selected_video['richThumbnail'][0]['url']
-    except :
-      thumbnail2 = thumbnail
 
-    return title, url, duration, thumbnail , thumbnail2
+    return title, url, duration
 
 def download_audio(url):
     try:
