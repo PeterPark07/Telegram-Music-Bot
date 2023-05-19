@@ -9,11 +9,7 @@ app = Flask(__name__)
 # Create a Telegram bot
 bot = Bot(os.getenv('TELEGRAM_BOT'))
 
-@app.route('/')
-def home():
-    return 'OK', 200
-
-@app.route('/download', methods=['POST', 'GET'])
+@app.route('/download', methods=['POST'])
 def telegram():
 
     message = request.get_json()['message']
