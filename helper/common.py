@@ -5,15 +5,13 @@ off = "BOT OFF"
 
 def commands(text , state):
     if text == '/start':
-        return start 
+        return start ,state
     if text == '/help':
-        return help 
+        return help , state
     if text == '/on':
-        state = True
-        return on
+        return on , True
     if text == '/off':
-        state = False
-        return off
+        return off , False
     else:
         return 0
 
