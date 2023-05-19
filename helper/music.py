@@ -7,10 +7,11 @@ ytdl_opts = {
     'postprocessors': [{
         'key': 'FFmpegExtractAudio',
         'preferredcodec': 'best',
-        'preferredquality': 'best'
+        'preferredquality': 'best',
+        'postprocessor_args': ['-c', 'copy'],
+        'embedthumbnail': True
     }]
 }
-
 def search(query):
     # Perform a search for videos based on the query
     search = VideosSearch(query, limit=1)
