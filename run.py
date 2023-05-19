@@ -20,10 +20,14 @@ def telegram():
     sender_id = message['from']['id']
     text = message['text']
     
-    audio , url = search(text)
+    title , url = search(text)
     
-    bot.send_message(sender_id, audio)
+    bot.send_message(sender_id, title)
     bot.send_message(sender_id, url)
+    bot.send_message(sender_id, duration)
+    bot.send_message(sender_id, thumbnail)
+    
+    
     
     if not url:
         bot.send_message(sender_id, 'Could not download')
