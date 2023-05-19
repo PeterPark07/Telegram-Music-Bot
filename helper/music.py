@@ -19,7 +19,7 @@ def search(query):
 
     url = selected_video['link']
     title = selected_video['title']
-    duration = selected_video['duration']
+    duration = selected_video['accessibility']['duration']
     thumbnail = selected_video['thumbnails'][0]['url']
     try :
       thumbnail2 = selected_video['richThumbnail'][0]['url']
