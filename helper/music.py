@@ -16,12 +16,12 @@ def search(query):
     search = VideosSearch(query, limit=1)
     results = search.result().get('result')
     if not results:
-        return "No videos found for that query.", None, None, None, None
+        return "No videos found for that query.", None, None
 
     selected_video = results[0]
     # Check if the selected video has a duration , filter for live videos
     if selected_video['duration'] is None:
-        return "Give a more relevant query.", None, None, None, None
+        return "Give a more relevant query.", None, None
 
     url = selected_video['link']
     title = selected_video['title']
