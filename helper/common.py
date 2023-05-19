@@ -11,6 +11,12 @@ def commands(text):
     if text == '/on':
         return on 
     if text == '/off':
+        from main import state
+        global state
+        state = False
         return off
     else:
         return 0
+
+def resolve(json):
+    return json['message']['from']['id'] , json['message']['text']
