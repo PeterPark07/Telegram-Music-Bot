@@ -36,7 +36,6 @@ def telegram():
             bot.send_photo(sender_id, thumbnail2, caption=title)
         except Exception as e:
             bot.send_message(sender_id, "No thumbnail available.")
-            return 'Fail', 200
     
     response, audio_file = download_audio(url)
     
