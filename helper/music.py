@@ -8,18 +8,21 @@ ytdl_opts = {'format': 'bestaudio/best',
                                  'preferredquality': 'best'}]}
 
 def search(query):
-  search = VideosSearch(query, limit=1)
-  results = search.result().get('result')
-  if not results:
-      return "No videos found for that query." , None
-  
-  selected_video = results[0]
-  print(selected_video)
-  url = selected_video['link']
-  title = selected_video['title']
-  duration = selected_video['duration']
-  thumbnail = selected_video['thumbnails'][0]['url']
-  return title , url , duration , thumbnail
+    search = VideosSearch(query, limit=1)
+    results = search.result().get('result')
+    if not results:
+        return "No videos found for that query.", None, None, None
+
+    selected_video = results[0]
+    if selected_video['duration'] is None:
+        return "Give a more relevant query.", None, None, None
+
+    url = selected_video['link']
+    title = selected_video['title']
+    duration = selected_video['duration']
+    thumbnail = selected_video['thumbnails'][0]['url']
+    return title, url, duration, thumbnail
+
 
 def download_audio(url):
   try:
