@@ -20,22 +20,25 @@ def telegram():
     sender_id = message['from']['id']
     text = message['text']
     
-    title , url , duration , thumbnail = search(text)
+    title , url , duration , thumbnail, thumbnail2= search(text)
     
     if not url:
         bot.send_message(sender_id, title)
         return 'Fail' , 200
     
+    message_text = f"{title}\nDuration - {duration}"
+    bot.send_message(sender_id, message_text)
     
-    bot.send_message(sender_id, title)
-    bot.send_message(sender_id, url)
-    bot.send_message(sender_id, duration)
-    bot.send_message(sender_id, thumbnail)
     try:
-        bot.send_photo(sender_id, thumbnail, caption="This is a photo.")
+        bot.send_photo(sender_id, thumbnail, caption=title)
     except Exception as e:
-        bot.send_message(sender_id, f"An error occurred while sending the photo: {str(e)}")
-        return 'Fail', 200
+        try:
+            bot.send_photo(sender_id, thumbnail2, caption=title)
+        except Exception as e:
+            bot.send_message(sender_id, "No thumbnail available.")
+            return 'Fail', 200
+    
+    bot.send_message(sender_id, url)
     
     response, audio_file = download_audio(url)
     
@@ -45,7 +48,7 @@ def telegram():
     
     bot.send_message(sender_id, str(audio_file))
     with open(audio_file, 'rb') as f:
-        bot.send_audio(sender_id, f)
+        bot.send_audio(sender_id, f , title = title)
     
     return 'OK', 200
 
