@@ -13,6 +13,10 @@ def telegram():
     sender_id = message['from']['id']
     text = message['text']
     
+    if text == '/start':
+        bot.send_message(sender_id, "Hello there! I am MusicBot, your personal music assistant. To find any song or audio, simply send me the title you want to search for.")
+        return 'OK', 200
+    
     # Search for music and retrieve necessary information
     title, url, duration, thumbnail, thumbnail2 = search(text)
     
