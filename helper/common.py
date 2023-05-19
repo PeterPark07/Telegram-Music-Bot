@@ -9,11 +9,9 @@ def commands(text , state):
     if text == '/help':
         return help 
     if text == '/on':
-        global state
         state = True
         return on
     if text == '/off':
-        global state
         state = False
         return 0
     else:
