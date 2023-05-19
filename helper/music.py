@@ -34,7 +34,6 @@ def download_audio(url):
             info = ydl.extract_info(url, download=True)
             file = info['requested_downloads'][0]
             thumbnail = [i['url'] for i in info['thumbnails'] if i['url'].endswith('.jpg')][-1]
-            print(thumbnail)
 
             if file['filesize'] > 49 * 1024 * 1024:
                 return 'File larger than 50 MB.', None , None
