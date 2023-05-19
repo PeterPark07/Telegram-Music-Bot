@@ -3,20 +3,20 @@ help = "MusicBot Help: \n\nSend me the title or description of a song or audio y
 on = "BOT ON"
 off = "BOT OFF"
 
-def commands(text , state):
+def commands(text, state):
     if text == '/start':
         msg = start
-    if text == '/help':
+    elif text == '/help':
         msg = help
-    if text == '/on':
+    elif text == '/on':
         msg = on
         state = True
-    if text == '/off':
+    elif text == '/off':
         msg = off
         state = False
     else:
         msg = 0
-    return msg , state
+    return msg, state
 
 def resolve(json):
     return json['message']['from']['id'] , json['message']['text']
