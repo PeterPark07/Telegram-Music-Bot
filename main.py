@@ -32,7 +32,6 @@ def telegram():
     response, audio_file , thumbnail= download_audio(url)
 
     bot.send_photo(sender_id, thumbnail, caption=title)
-    print(thumbnail)
     
     if not audio_file:
         # If audio file download fails, send the response message and return "Fail"
