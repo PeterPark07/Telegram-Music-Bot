@@ -13,7 +13,7 @@ def commands(text , state):
     if text == '/off':
         return off , False
     else:
-        return 0
+        return 0, state
 
 def resolve(json):
     return json['message']['from']['id'] , json['message']['text']
