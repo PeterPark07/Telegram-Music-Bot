@@ -5,15 +5,18 @@ off = "BOT OFF"
 
 def commands(text , state):
     if text == '/start':
-        return start ,state
+        msg = start
     if text == '/help':
-        return help , state
+        msg = help
     if text == '/on':
-        return on , True
+        msg = on
+        state = True
     if text == '/off':
-        return off , False
+        msg = off
+        state = False
     else:
-        return 0, state
+        msg = 0
+    return msg , state
 
 def resolve(json):
     return json['message']['from']['id'] , json['message']['text']
