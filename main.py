@@ -13,9 +13,9 @@ def telegram():
     # Retrieve message details from the request
     sender_id , text = resolve(request.get_json())
     
+    global state
     if state == False:
         if text == '/on':
-            global state
             state = True
         else:
             return 'OK', 200
