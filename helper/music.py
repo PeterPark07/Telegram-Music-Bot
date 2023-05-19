@@ -7,9 +7,7 @@ ytdl_opts = {
     'postprocessors': [{
         'key': 'FFmpegExtractAudio',
         'preferredcodec': 'best',
-        'preferredquality': 'best',
-        'postprocessor_args': ['-c', 'copy'],
-        'embedthumbnail': True
+        'preferredquality': 'best'
     }]
 }
 def search(query):
@@ -35,10 +33,11 @@ def download_audio(url):
         with youtube_dl.YoutubeDL(ytdl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
             file = info['requested_downloads'][0]
+            thumbnail = [i for i in info['thumbnails'] if thumbnail['url'].endswith('.jpg')][-1]
 
             if file['filesize'] > 49 * 1024 * 1024:
                 return 'File larger than 50 MB.', None , None
             
-            return None, file['filepath'] , info['thumbnail']
+            return None, file['filepath'] , thumbnail
     except:
         return 'Could not download file', None , None
