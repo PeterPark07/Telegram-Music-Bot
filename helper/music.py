@@ -14,8 +14,11 @@ def search(query):
       return "No videos found for that query." , None
   
   selected_video = results[0]
-  url = f"https://www.youtube.com/watch?v={selected_video['id']}"
-  return f"{selected_video['title']}..." , url
+  url = selected_video['link']
+  title = selected_video['title']
+  duration = selected_video['duration']
+  thumbnail = selected_video['thumbnails'][0]['url']
+  return title , url , duration , thumbnail
 
 def download_audio(url):
   try:
