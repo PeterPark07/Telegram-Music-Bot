@@ -3,18 +3,19 @@ help = "MusicBot Help: \n\nSend me the title or description of a song or audio y
 on = "BOT ON"
 off = "BOT OFF"
 
-def commands(text):
+def commands(text , state):
     if text == '/start':
         return start 
     if text == '/help':
         return help 
     if text == '/on':
-        return on 
+        global state
+        state = True
+        return on
     if text == '/off':
-        from main import state
         global state
         state = False
-        return off
+        return 0
     else:
         return 0
 
