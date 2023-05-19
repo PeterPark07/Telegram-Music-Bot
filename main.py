@@ -2,6 +2,7 @@ import os
 from flask import Flask, request
 from telegram.bot import Bot
 from helper.music import search, download_audio
+from helper.common import commands
 
 app = Flask(__name__)
 bot = Bot(os.getenv('TELEGRAM_BOT'))
@@ -13,8 +14,9 @@ def telegram():
     sender_id = message['from']['id']
     text = message['text']
     
-    if text == '/start':
-        bot.send_message(sender_id, "Hello there! I am MusicBot, your personal music assistant. To find any song or audio, simply send me the title you want to search for.")
+    send = commands(text)
+    if send != 0:
+        bot.send_message(sender_id, send)
         return 'OK', 200
     
     # Search for music and retrieve necessary information
