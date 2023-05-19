@@ -26,7 +26,7 @@ def telegram():
         bot.send_message(sender_id, title)
         return 'Fail' , 200
     
-    message_text = f"{title}\n\nDuration - {duration}"
+    message_text = f"{title}\n\n {duration}\n\n {url}"
     bot.send_message(sender_id, message_text)
     
     try:
@@ -38,8 +38,6 @@ def telegram():
             bot.send_message(sender_id, "No thumbnail available.")
             return 'Fail', 200
     
-    bot.send_message(sender_id, url)
-    
     response, audio_file = download_audio(url)
     
     if not audio_file :
@@ -47,7 +45,7 @@ def telegram():
         return 'Fail' , 200
 
     with open(audio_file, 'rb') as f:
-        bot.send_audio(sender_id, f )
+        bot.send_audio(sender_id, f , caption = title)
     
     return 'OK', 200
 
