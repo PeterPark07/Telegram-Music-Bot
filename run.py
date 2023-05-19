@@ -20,7 +20,7 @@ def telegram():
     sender_id = message['from']['id']
     text = message['text']
     
-    title , url = search(text)
+    title , url , duration , thumbnail = search(text)
     
     bot.send_message(sender_id, title)
     bot.send_message(sender_id, url)
