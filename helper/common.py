@@ -6,11 +6,11 @@ off = "BOT OFF"
 def commands(text):
     if text == '/start':
         return start 
-    if text = '/help':
+    if text == '/help':
         return help 
-    if text = '/on':
+    if text == '/on':
         return on 
-    if text = '/off':
+    if text == '/off':
         return off
     else:
         return 0
