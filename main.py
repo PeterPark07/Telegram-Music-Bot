@@ -14,6 +14,10 @@ def telegram():
     sender_id , text = resolve(request.get_json())
     
     if state == False:
+        if text == '/on':
+            global state
+            state = True
+        else:
             return 'OK', 200
    
     send = commands(text)
