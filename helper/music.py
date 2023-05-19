@@ -14,6 +14,7 @@ def search(query):
       return "No videos found for that query." , None
   
   selected_video = results[0]
+  print(selected_video)
   url = selected_video['link']
   title = selected_video['title']
   duration = selected_video['duration']
