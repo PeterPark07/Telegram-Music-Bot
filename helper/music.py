@@ -1,6 +1,5 @@
 import yt_dlp as youtube_dl
 from youtubesearchpython import VideosSearch
-import os
 
 # YouTube DL options for audio extraction
 ytdl_opts = {
@@ -39,14 +38,11 @@ def download_audio(url):
     try:
         with youtube_dl.YoutubeDL(ytdl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
-            filepath = info['requested_downloads'][0]['filepath']
-            file_size = os.path.getsize(filepath)
-            
-            if file_size > 49 * 1024 * 1024:
-                # Delete the downloaded file if it exceeds 50 MB
-                os.remove(filepath)
+            file = info['requested_downloads'][0]
+
+            if file['filesize'] > 49 * 1024 * 1024:
                 return 'File larger than 50 MB.', None
             
-            return None, filepath
+            return None, file['filepath']
     except:
         return 'Could not download file', None
