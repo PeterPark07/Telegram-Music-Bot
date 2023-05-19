@@ -43,7 +43,11 @@ def telegram():
         return 'Fail', 200
     
     # Send the thumbnail, the downloaded audio file with the title as the caption
-    bot.send_photo(sender_id, thumbnail, caption=title)
+    try:
+        bot.send_photo(sender_id, thumbnail, caption=title)
+    else:
+        bot.send_photo(sender_id, 'Thumbnail not found.')
+        
     with open(audio_file, 'rb') as f:
         bot.send_audio(sender_id, f, caption=title)
     
