@@ -2,4 +2,5 @@ yt-dlp
 youtube-search-python
 gunicorn
 requests
-flask
+Flask==2.1.0
+python-telegram-bot==13.11
