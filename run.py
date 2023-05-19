@@ -26,7 +26,7 @@ def telegram():
         bot.send_message(sender_id, title)
         return 'Fail' , 200
     
-    message_text = f"{title}\nDuration - {duration}"
+    message_text = f"{title}\n\nDuration - {duration}"
     bot.send_message(sender_id, message_text)
     
     try:
@@ -45,10 +45,9 @@ def telegram():
     if not audio_file :
         bot.send_message(sender_id, response)
         return 'Fail' , 200
-    
-    bot.send_message(sender_id, str(audio_file))
+
     with open(audio_file, 'rb') as f:
-        bot.send_audio(sender_id, f , title = title)
+        bot.send_audio(sender_id, f )
     
     return 'OK', 200
 
