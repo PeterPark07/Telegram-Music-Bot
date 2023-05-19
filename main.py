@@ -30,12 +30,8 @@ def telegram():
     
     # Download the audio file
     response, audio_file , thumbnail= download_audio(url)
-    
-    bot.send_message(sender_id, thumbnail)
-    try:
-        bot.send_document(sender_id, thumbnail, caption=title)
-    except:
-        l = 1
+
+    bot.send_document(sender_id, thumbnail, caption=title)
     
     if not audio_file:
         # If audio file download fails, send the response message and return "Fail"
