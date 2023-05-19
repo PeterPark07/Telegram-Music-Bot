@@ -22,17 +22,16 @@ def telegram():
     
     title , url , duration , thumbnail = search(text)
     
+    if not url:
+        bot.send_message(sender_id, title)
+        return 'Fail' , 200
+    
+    
     bot.send_message(sender_id, title)
     bot.send_message(sender_id, url)
     bot.send_message(sender_id, duration)
     bot.send_message(sender_id, thumbnail)
     bot.sendPhoto(sender_id, thumbnail, caption="This is a photo.")
-    
-    
-    
-    if not url:
-        bot.send_message(sender_id, title)
-        return 'Fail' , 200
     
     response , audio_file = download_audio(url)
     
