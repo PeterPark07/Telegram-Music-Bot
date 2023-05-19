@@ -4,7 +4,7 @@ import os
 
 ytdl_opts = {'format': 'bestaudio/best',
              'postprocessors': [{'key': 'FFmpegExtractAudio',
-                                 'preferredcodec': 'm4a',
+                                 'preferredcodec': 'best',
                                  'preferredquality': 'best'}]}
 
 def search(query):
