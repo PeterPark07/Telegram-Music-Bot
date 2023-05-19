@@ -1,9 +1,13 @@
+import os
 from flask import Flask, request
+from telegram.bot import Bot
 
 from helper.music import search , download_audio
-from helper.telegram import sendMessage , sendAudio
 
 app = Flask(__name__)
+
+# Create a Telegram bot
+bot = Bot(os.getenv('TELEGRAM_BOT'))
 
 @app.route('/')
 def home():
@@ -16,22 +20,23 @@ def telegram():
     sender_id = message['from']['id']
     text = message['text']
     
-    res , url = search(text)
+    audio , url = search(text)
     
-    sendMessage(sender_id, res)
+    bot.send_message(sender_id, audio)
     
     if not url:
-        sendMessage(sender_id, 'Could not download')
+        bot.send_message(sender_id, 'Could not download')
         return 'Fail' , 200
     
-    response , audio_file , name = download_audio(url)
+    response , audio_file = download_audio(url)
     
     if not audio_file :
-        sendMessage(sender_id, response)
+        bot.send_message(sender_id, response)
         return 'Fail' , 200
     
-    sendMessage(sender_id, str(audio_file))
-    sendAudio(sender_id, audio_file , name)
+    bot.send_message(sender_id, str(audio_file))
+    with open(audio_file, 'rb') as f:
+        bot.send_audio(sender_id, f)
     
     return 'OK', 200
 
