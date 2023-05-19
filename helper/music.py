@@ -41,8 +41,8 @@ def download_audio(url):
             file = info['requested_downloads'][0]
 
             if file['filesize'] > 49 * 1024 * 1024:
-                return 'File larger than 50 MB.', None
+                return 'File larger than 50 MB.', None , None
             
-            return None, file['filepath']
+            return None, file['filepath'] , info['thumbnail']
     except:
-        return 'Could not download file', None
+        return 'Could not download file', None , None
