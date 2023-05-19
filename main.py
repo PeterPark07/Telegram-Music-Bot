@@ -14,7 +14,7 @@ def telegram():
     # Retrieve message details from the request
     sender_id , text = resolve(request.get_json())
     
-    send = commands(text , state)
+    send, state = commands(text , state)
     if send != 0:
         bot.send_message(sender_id, send)
         return 'OK', 200
