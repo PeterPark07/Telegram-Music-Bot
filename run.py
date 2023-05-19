@@ -31,7 +31,8 @@ def telegram():
     bot.send_message(sender_id, url)
     bot.send_message(sender_id, duration)
     bot.send_message(sender_id, thumbnail)
-    bot.sendPhoto(sender_id, thumbnail, caption="This is a photo.")
+    try:
+        bot.sendPhoto(sender_id, thumbnail, caption="This is a photo.")
     
     response , audio_file = download_audio(url)
     
