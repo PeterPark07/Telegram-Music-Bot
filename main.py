@@ -18,7 +18,7 @@ def telegram():
         return 'OK', 200
     
     # Search for music and retrieve necessary information
-    title, url, duration, thumbnail, thumbnail2 = search(text)
+    title, url, duration= search(text)
     
     # If no URL found, send the title and return "Fail"
     if not url:
@@ -28,19 +28,10 @@ def telegram():
     # Send the title, duration, and URL as a message
     bot.send_message(sender_id, f"{title}\n\n{duration}\n\n{url}")
     
-    ''' Unquote to send the thumbnail with the title as the caption
-    try:
-        bot.send_photo(sender_id, thumbnail, caption=title)
-    except Exception as e:
-        try:
-            bot.send_photo(sender_id, thumbnail2, caption=title)
-        except Exception as e:
-            # If fail, send a message indicating no thumbnail is available
-            bot.send_message(sender_id, "No thumbnail available.")
-    '''
-    
     # Download the audio file
-    response, audio_file = download_audio(url)
+    response, audio_file , thumbnail= download_audio(url)
+    
+    bot.send_photo(sender_id, thumbnail, caption=title)
     
     if not audio_file:
         # If audio file download fails, send the response message and return "Fail"
