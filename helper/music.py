@@ -28,7 +28,10 @@ def search(query):
     title = selected_video['title']
     duration = selected_video['accessibility']['duration']
     thumbnail = selected_video['thumbnails'][0]['url']
-    thumbnail2 = selected_video['richThumbnail'][0]['url'] if 'richThumbnail' in selected_video else thumbnail
+    try :
+      thumbnail2 = selected_video['richThumbnail'][0]['url']
+    except :
+      thumbnail2 = thumbnail
 
     return title, url, duration, thumbnail , thumbnail2
 
