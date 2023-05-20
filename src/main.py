@@ -6,7 +6,7 @@ from helper.common import commands, resolve
 
 app = Flask(__name__)
 bot = Bot(os.getenv('TELEGRAM_BOT'))
-state = True
+state = False
 
 @app.route('/', methods=['POST'])
 def telegram():
