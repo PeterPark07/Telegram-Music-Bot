@@ -8,7 +8,7 @@ def commands(text, state):
         msg = start
     elif text == '/help':
         msg = help
-    elif text == '/on':
+    elif text == '/one':
         msg = on
         state = True
     elif text == '/off':
