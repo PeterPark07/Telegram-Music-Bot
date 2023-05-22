@@ -32,7 +32,7 @@ def telegram():
         return 'Fail', 200
 
     # Send the title, duration, and URL as a message
-    bot.send_message(sender_id, f"{title}\n\n{duration}\n\n{url}")
+    # bot.send_message(sender_id, f"{title}\n\n{duration}\n\n{url}")
 
     # Download the audio file
     response, audio_file, thumbnail = download_audio(url)
@@ -44,9 +44,9 @@ def telegram():
 
     # Send the thumbnail, the downloaded audio file with the title as the caption
     try:
-        bot.send_photo(sender_id, thumbnail, caption=title)
+        bot.send_photo(sender_id, thumbnail, caption=f"{title}\n\n{duration}\n\n{url}")
     except:
-        bot.send_message(sender_id, 'Thumbnail not found.')
+        bot.send_message(sender_id, f"{title}\n\n{duration}\n\n{url}")
 
     with open(audio_file, 'rb') as f:
         bot.send_audio(sender_id, f, caption=title)
