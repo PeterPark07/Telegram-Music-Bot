@@ -1,11 +1,11 @@
 import os
 from flask import Flask, request
-from telegram.bot import Bot
+import telebot
 from helper.music import search, download_audio
 from helper.common import commands, resolve
 
 app = Flask(__name__)
-bot = Bot(os.getenv('TELEGRAM_BOT'))
+bot = telebot.TeleBot(os.getenv('TELEGRAM_BOT'))
 state = False
 
 @app.route('/', methods=['POST'])
