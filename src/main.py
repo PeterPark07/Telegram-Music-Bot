@@ -36,7 +36,6 @@ def telegram():
 
     # Download the audio file
     response, audio_file, thumbnail = download_audio(url)
-    print(audio_file)
 
     if not audio_file:
         # If audio file download fails, send the response message and return "Fail"
