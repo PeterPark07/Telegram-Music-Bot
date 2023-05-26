@@ -5,7 +5,9 @@ from helper.music import search, download_audio
 
 app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('TELEGRAM_BOT'), threaded=False)
+audio_format = 'best'  # Default value
 state = False
+
 
 @app.route('/', methods=['POST'])
 def telegram():
@@ -26,7 +28,7 @@ def handle_start(message):
 @bot.message_handler(commands=['help'])
 def handle_help(message):
     # Handle the /help command
-    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, and I will fetch it for you.")
+    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, and I will fetch it for you.\n Use /settings to change the audio format.")
 
 
 @bot.message_handler(commands=['on'])
@@ -43,19 +45,16 @@ def handle_off(message):
     state = False
     # Handle the /off command
     bot.reply_to(message, "BOT OFF")
-
     
-# Store the user's preferred audio format
-user_audio_format = 'best'  # Default value
     
 @bot.message_handler(commands=['settings'])
 def settings(message):
     # Create an inline keyboard for audio format selection
-    keyboard = types.InlineKeyboardMarkup()
+    keyboard = telebot.types.InlineKeyboardMarkup()
 
     # Create inline keyboard buttons for each audio format
     formats = ['best', 'aac', 'alac', 'flac', 'm4a', 'mp3', 'opus', 'vorbis', 'wav']
-    buttons = [types.InlineKeyboardButton(format_name, callback_data=format_name) for format_name in formats]
+    buttons = [telebot.types.InlineKeyboardButton(format_name, callback_data=format_name) for format_name in formats]
 
     # Add buttons to the keyboard
     keyboard.add(*buttons)
@@ -65,8 +64,8 @@ def settings(message):
     
 @bot.callback_query_handler(func=lambda call: True)
 def handle_callback(call):
-    global user_audio_format
-    user_audio_format = call.data
+    global audio_format
+    audio_format = call.data
     bot.send_message(call.message.chat.id, f"Audio format set to {call.data}")
     
 @bot.message_handler(func=lambda message: True)
@@ -84,7 +83,7 @@ def handle_other_messages(message):
     else:
         # Download audio file
         wait = bot.reply_to(message, 'Downloading...')
-        response, audio_file, thumbnail = download_audio(url , user_audio_format)
+        response, audio_file, thumbnail = download_audio(url , audio_format)
         bot.delete_message(message.chat.id, wait.message_id)
 
         if not audio_file:
