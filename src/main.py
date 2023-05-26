@@ -2,53 +2,79 @@ import os
 from flask import Flask, request
 import telebot
 from helper.music import search, download_audio
-from helper.common import commands, resolve
 
 app = Flask(__name__)
-bot = telebot.TeleBot(os.getenv('TELEGRAM_BOT'))
+bot = telebot.TeleBot(os.getenv('TELEGRAM_BOT'), threaded=False)
 state = False
 
 @app.route('/', methods=['POST'])
 def telegram():
+    # Process incoming updates
+    if request.headers.get('content-type') == 'application/json':
+        json_string = request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return 'OK', 200
+
+
+@bot.message_handler(commands=['start'])
+def handle_start(message):
+    # Handle the /start command
+    bot.reply_to(message, "Hello there! I am MusicBot, your personal music assistant.\nTo find any song or audio, simply send me the title you want to search for.")
+
+
+@bot.message_handler(commands=['help'])
+def handle_help(message):
+    # Handle the /help command
+    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, and I will fetch it for you.")
+
+
+@bot.message_handler(commands=['on'])
+def handle_on(message):
     global state
+    state = True
+    # Handle the /on command
+    bot.reply_to(message, "BOT ON")
 
-    # Retrieve message details from the request
-    sender_id, text = resolve(request.get_json())
-    send, state = commands(text, state)
 
-    if send != 0:
-        bot.send_message(sender_id, send)
-        return 'OK', 200
+@bot.message_handler(commands=['off'])
+def handle_off(message):
+    global state
+    state = False
+    # Handle the /off command
+    bot.reply_to(message, "BOT OFF")
 
-    if not state:
-        return 'OK', 200
 
-    # Search for music and retrieve necessary information
-    title, url, duration = search(text)
+@bot.message_handler(func=lambda message: True)
+def handle_other_messages(message):
+    if not state :
+        return
+    
+    query = message.text
+    title, url, duration = search(query)
 
     if not url:
-        # If no URL found, send the title and return "Fail"
-        bot.send_message(sender_id, title)
-        return 'Fail', 200
+        # No URL found, reply with the title
+        bot.reply_to(message, title)
+        return
+    else:
+        # Download audio file
+        wait = bot.reply_to(message, 'Downloading...')
+        response, audio_file, thumbnail = download_audio(url)
+        bot.delete_message(message.chat.id, wait.message_id)
 
-    # Send the title, duration, and URL as a message
-    # bot.send_message(sender_id, f"{title}\n\n{duration}\n\n{url}")
+        if not audio_file:
+            # Error downloading audio file
+            bot.reply_to(message, response)
+            return
+        else:
+            try:
+                # Send photo with caption
+                bot.send_photo(message.chat.id, thumbnail, caption=f"{title}\n\n{duration}\n\n{url}", reply_to_message_id=message.message_id)
+            except:
+                # Send message with caption
+                bot.reply_to(message, f"{title}\n\n{duration}\n\n{url}")
 
-    # Download the audio file
-    response, audio_file, thumbnail = download_audio(url)
-
-    if not audio_file:
-        # If audio file download fails, send the response message and return "Fail"
-        bot.send_message(sender_id, response)
-        return 'Fail', 200
-
-    # Send the thumbnail, the downloaded audio file with the title as the caption
-    try:
-        bot.send_photo(sender_id, thumbnail, caption=f"{title}\n\n{duration}\n\n{url}")
-    except:
-        bot.send_message(sender_id, f"{title}\n\n{duration}\n\n{url}")
-
-    with open(audio_file, 'rb') as f:
-        bot.send_audio(sender_id, f, caption=title)
-
-    return 'OK', 200
+            # Send audio file
+            with open(audio_file, 'rb') as f:
+                bot.send_audio(message.chat.id, f, caption=title)
