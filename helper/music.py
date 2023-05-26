@@ -4,6 +4,8 @@ from youtubesearchpython import VideosSearch
 # YouTube DL options for audio extraction
 ytdl_opts = {
     'format': 'bestaudio/best',
+    "embed_metadata": True,
+    "geo_bypass": True,
     'postprocessors': [{
         'key': 'FFmpegExtractAudio',
         'preferredcodec': 'best',
