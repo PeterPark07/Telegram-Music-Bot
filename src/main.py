@@ -28,7 +28,7 @@ def handle_start(message):
 @bot.message_handler(commands=['help'])
 def handle_help(message):
     # Handle the /help command
-    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, and I will fetch it for you.\n Use /settings to change the audio format.")
+    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, and I will fetch it for you.\nUse /settings to change the audio format.")
 
 
 @bot.message_handler(commands=['on'])
@@ -45,34 +45,34 @@ def handle_off(message):
     state = False
     # Handle the /off command
     bot.reply_to(message, "BOT OFF")
-    
-    
+
+
 @bot.message_handler(commands=['settings'])
 def settings(message):
     # Create an inline keyboard for audio format selection
     keyboard = telebot.types.InlineKeyboardMarkup()
-
     # Create inline keyboard buttons for each audio format
-    formats = ['best', 'aac', 'alac', 'flac', 'm4a', 'mp3', 'opus', 'vorbis', 'wav']
+    formats = ['best', 'aac', 'm4a', 'mp3', 'opus', 'wav']
     buttons = [telebot.types.InlineKeyboardButton(format_name, callback_data=format_name) for format_name in formats]
-
     # Add buttons to the keyboard
     keyboard.add(*buttons)
 
     # Send a message with the inline keyboard
     bot.send_message(message.chat.id, "Select your desired audio format:", reply_markup=keyboard)
-    
+
+
 @bot.callback_query_handler(func=lambda call: True)
 def handle_callback(call):
     global audio_format
     audio_format = call.data
     bot.send_message(call.message.chat.id, f"Audio format set to {call.data}")
-    
+
+
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
-    if not state :
+    if not state:
         return
-    
+
     query = message.text
     title, url, duration = search(query)
 
@@ -83,7 +83,7 @@ def handle_other_messages(message):
     else:
         # Download audio file
         wait = bot.reply_to(message, 'Downloading...')
-        response, audio_file, thumbnail = download_audio(url , audio_format)
+        response, audio_file, thumbnail = download_audio(url, audio_format)
         bot.delete_message(message.chat.id, wait.message_id)
 
         if not audio_file:
@@ -93,7 +93,8 @@ def handle_other_messages(message):
         else:
             try:
                 # Send photo with caption
-                bot.send_photo(message.chat.id, thumbnail, caption=f"{title}\n\n{duration}\n\n{url}", reply_to_message_id=message.message_id)
+                bot.send_photo(message.chat.id, thumbnail, caption=f"{title}\n\n{duration}\n\n{url}",
+                               reply_to_message_id=message.message_id)
             except:
                 # Send message with caption
                 bot.reply_to(message, f"{title}\n\n{duration}\n\n{url}")
@@ -101,3 +102,7 @@ def handle_other_messages(message):
             # Send audio file
             with open(audio_file, 'rb') as f:
                 bot.send_audio(message.chat.id, f, caption=title)
+
+
+if __name__ == '__main__':
+    app.run()
