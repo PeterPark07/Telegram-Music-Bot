@@ -47,7 +47,6 @@ def handle_off(message):
 
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
-    global state
     if not state :
         return
     
