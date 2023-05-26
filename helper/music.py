@@ -1,18 +1,6 @@
 import yt_dlp as youtube_dl
 from youtubesearchpython import VideosSearch
 
-# YouTube DL options for audio extraction
-ytdl_opts = {
-    'format': 'bestaudio/best',
-    "embed_metadata": True,
-    "geo_bypass": True,
-    "quiet": True,
-    'postprocessors': [{
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'best',
-        'preferredquality': 'best'
-    }]
-}
 def search(query):
     # Perform a search for videos based on the query
     search = VideosSearch(query, limit=1)
@@ -31,7 +19,20 @@ def search(query):
 
     return title, url, duration
 
-def download_audio(url):
+def download_audio(url , codec):
+    # YouTube DL options for audio extraction
+    ytdl_opts = {
+        'format': 'bestaudio/best',
+        "embed_metadata": True,
+        "geo_bypass": True,
+        "quiet": True,
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': codec,
+            'preferredquality': 'best'
+        }]
+    }
+    
     try:
         with youtube_dl.YoutubeDL(ytdl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
