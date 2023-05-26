@@ -6,6 +6,7 @@ ytdl_opts = {
     'format': 'bestaudio/best',
     "embed_metadata": True,
     "geo_bypass": True,
+    "quiet": True,
     'postprocessors': [{
         'key': 'FFmpegExtractAudio',
         'preferredcodec': 'best',
