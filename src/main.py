@@ -111,7 +111,7 @@ def handle_other_messages(message):
 
             # Send audio file
             with open(audio_file, 'rb') as f:
-                bot.send_audio(message.chat.id, f, caption=title ,title=title)
+                bot.send_audio(message.chat.id, f,title=title)
 
 if __name__ == '__main__':
     app.run()
