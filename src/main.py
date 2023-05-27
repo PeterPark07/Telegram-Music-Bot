@@ -69,6 +69,9 @@ def handle_callback(call):
 
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
+    if not state:
+        return
+
     global last_message_id 
   
     # Check if this is the same message as the previous one 
@@ -79,10 +82,6 @@ def handle_other_messages(message):
         
     # Store the current message ID as the most recent one 
     last_message_id = message.message_id
-
-
-    if not state:
-        return
 
     query = message.text
     title, url, duration = search(query)
