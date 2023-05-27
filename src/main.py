@@ -7,6 +7,7 @@ app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('TELEGRAM_BOT'), threaded=False)
 audio_format = 'best'  # Default value
 state = False
+last_message_id = None
 
 
 @app.route('/', methods=['POST'])
@@ -68,6 +69,17 @@ def handle_callback(call):
 
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
+    global last_message_id 
+  
+    # Check if this is the same message as the previous one 
+    if last_message_id == message.message_id: 
+         bot.reply_to(message, "done") 
+         return 
+  
+    # Store the current message ID as the most recent one 
+    last_message_id = message.message_id
+
+
     if not state:
         return
 
