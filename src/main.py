@@ -77,8 +77,6 @@ def handle_other_messages(message):
   
     # Check if this is the same message as the previous one 
     if last_message_id == message.message_id: 
-        wait = bot.reply_to(message, "Completed") 
-        bot.delete_message(message.chat.id, wait.message_id)
         return 
         
     # Store the current message ID as the most recent one 
@@ -93,7 +91,7 @@ def handle_other_messages(message):
         return
     else:
         # Download audio file
-        wait = bot.reply_to(message, 'Downloading...')
+        wait = bot.reply_to(message, title)
         response, audio_file, thumbnail = download_audio(url, audio_format)
         bot.delete_message(message.chat.id, wait.message_id)
 
