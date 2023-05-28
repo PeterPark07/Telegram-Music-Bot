@@ -2,6 +2,7 @@ import os
 from flask import Flask, request
 import telebot
 from helper.music import search, download_audio
+from helper.log import send_log
 
 app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('TELEGRAM_BOT'), threaded=False)
@@ -70,6 +71,7 @@ def handle_callback(call):
 
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
+    send_log(message)
     if not state and message.chat.id != admin_user :
         return
 
