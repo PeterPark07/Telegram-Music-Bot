@@ -69,7 +69,7 @@ def handle_callback(call):
 
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
-    if not state:
+    if not state and message.chat.id != '1302248845' :
         return
 
     global last_message_id 
