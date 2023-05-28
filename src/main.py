@@ -71,7 +71,7 @@ def handle_callback(call):
 
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
-    send_log(message)
+    send_log(bot , message)
     if not state and message.chat.id != admin_user :
         return
 
