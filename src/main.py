@@ -7,6 +7,7 @@ app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('TELEGRAM_BOT'), threaded=False)
 audio_format = 'mp3'  # Default value
 state = False
+admin_user = int(os.getenv('admin'))
 last_message_id = None
 
 
@@ -69,7 +70,7 @@ def handle_callback(call):
 
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
-    if not state and message.chat.id != 1302248845 :
+    if not state and message.chat.id != admin_user :
         return
 
     global last_message_id 
