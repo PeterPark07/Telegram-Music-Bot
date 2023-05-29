@@ -5,7 +5,7 @@ from helper.music import search, download_audio
 from helper.log import send_log
 
 app = Flask(__name__)
-bot = telebot.TeleBot(os.getenv('TELEGRAM_BOT'), threaded=False)
+bot = telebot.TeleBot(os.getenv('music_bot'), threaded=False)
 audio_format = 'mp3'  # Default value
 state = False
 admin_user = int(os.getenv('admin'))
