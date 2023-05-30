@@ -33,7 +33,7 @@ def handle_start(message):
 @bot.message_handler(commands=['help'])
 def handle_help(message):
     # Handle the /help command
-    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, and I will fetch it for you.\nUse /settings to change the audio format.\nDefault is m4a")
+    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, and I will fetch it for you.\nUse /settings to change the audio format (Default = m4a).")
 
 @bot.message_handler(commands=['on'])
 def handle_on(message):
