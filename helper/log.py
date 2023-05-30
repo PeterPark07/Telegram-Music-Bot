@@ -1,7 +1,7 @@
 import os
 
 log_chat = os.getenv('log_chat')
-admin_user = int(os.getenv('admin'))
+admin_user = [int(id) for id in (os.getenv('admin').split(','))][0]
 
 def send_log(bot, message):
     user_id = message.from_user.id
