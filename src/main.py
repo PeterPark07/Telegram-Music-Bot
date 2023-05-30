@@ -6,7 +6,7 @@ from helper.log import send_log
 
 app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('music_bot'), threaded=False)
-audio_format = 'mp3'  # Default value
+audio_format = 'm4a'  # Default value
 state = False
 admin_user = int(os.getenv('admin')) 
 users = [int(id) for id in (os.getenv('users').split(','))]
@@ -33,7 +33,7 @@ def handle_start(message):
 @bot.message_handler(commands=['help'])
 def handle_help(message):
     # Handle the /help command
-    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, and I will fetch it for you.\nUse /settings to change the audio format.")
+    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, and I will fetch it for you.\nUse /settings to change the audio format.\nDefault is m4a")
 
 @bot.message_handler(commands=['on'])
 def handle_on(message):
