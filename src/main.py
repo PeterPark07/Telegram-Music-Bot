@@ -7,6 +7,7 @@ from helper.log import send_log
 app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('music_bot'), threaded=False)
 audio_format = 'm4a'  # Default value
+temp_audio_format = None
 state = False
 admin_user = int(os.getenv('admin')) 
 users = [int(id) for id in (os.getenv('users').split(','))]
@@ -110,11 +111,15 @@ def handle_other_messages(message):
             return
 
         if seconds >= 900:
-            global audio_format
-            audio_format = 'best'
-            bot.send_message(message.chat.id, f"Audio file too large, audio format set to best.")
+            global temp_audio_format
+            temp_audio_format = 'best'
+            bot.send_message(message.chat.id, f"Audio file too large, sending in fastest format possible.")
 
-        response, audio_file, thumbnail = download_audio(url, audio_format)
+        if temp_audio_format:
+            response, audio_file, thumbnail = download_audio(url, temp_audio_format)
+            temp_audio_format = None
+        else:
+            response, audio_file, thumbnail = download_audio(url, audio_format)
         bot.delete_message(message.chat.id, wait.message_id)
 
         if not audio_file:
