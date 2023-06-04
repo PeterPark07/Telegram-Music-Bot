@@ -137,6 +137,3 @@ def handle_other_messages(message):
             with open(audio_file, 'rb') as f:
                 bot.send_audio(message.chat.id, f, title=title)
 
-# Run the Flask app
-if __name__ == '__main__':
-    app.run()
