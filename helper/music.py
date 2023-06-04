@@ -19,12 +19,12 @@ def search(query):
     duration_text = selected_video['accessibility']['duration']
 
     duration = duration.split(':')
-        if len(duration) == 2:
-            seconds = int(duration[0]) * 60 + int(duration[1])
-        elif len(duration) == 3:
-            seconds = int(duration[0]) * 3600 + int(duration[1]) * 60 + int(duration[2])
-        else:
-            seconds = int(duration[0])
+    if len(duration) == 2:
+        seconds = int(duration[0]) * 60 + int(duration[1])
+    elif len(duration) == 3:
+        seconds = int(duration[0]) * 3600 + int(duration[1]) * 60 + int(duration[2])
+    else:
+        seconds = int(duration[0])
 
     return title, url, seconds, duration_text
 
