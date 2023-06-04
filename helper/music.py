@@ -15,9 +15,10 @@ def search(query):
 
     url = selected_video['link']
     title = selected_video['title']
-    duration = selected_video['accessibility']['duration']
+    duration = selected_video['duration']
+    duration_text = selected_video['accessibility']['duration']
 
-    return title, url, duration
+    return title, url, duration ,duration_text
 
 def download_audio(url , codec):
     # YouTube DL options for audio extraction
