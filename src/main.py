@@ -100,10 +100,10 @@ def handle_other_messages(message):
         parts = duration.split(':')
         if len(parts) == 2:
             seconds = int(parts[0]) * 60 + int(parts[1])
-        elif len(duration) == 3:
+        elif len(parts) == 3:
             seconds = int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
         else :
-            seconds = int(parts)
+            seconds = int(parts[0])
         
         if seconds >= 900:
             global audio_format
