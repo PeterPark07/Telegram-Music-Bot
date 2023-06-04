@@ -9,7 +9,7 @@ bot = telebot.TeleBot(os.getenv('music_bot'), threaded=False)
 audio_format = 'm4a'  # Default value
 temp_audio_format = None
 state = False
-admin_user = int(os.getenv('admin')) 
+admin_user = int(os.getenv('admin'))
 users = [int(id) for id in (os.getenv('users').split(','))]
 last_message_id = None
 
@@ -28,13 +28,17 @@ def telegram():
 def handle_start(message):
     send_log(bot, message)
     # Handle the /start command
-    bot.reply_to(message, "Hello there! I am MusicBot, your personal music assistant.\nTo find any song or audio, simply send me the title you want to search for.")
+    bot.reply_to(message, "Hello there! I am MusicBot, your personal music assistant. 😎🎵\n"
+                          "To find any song or audio, simply send me the title you want to search for.")
 
 
 @bot.message_handler(commands=['help'])
 def handle_help(message):
     # Handle the /help command
-    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, and I will fetch it for you.\nUse /settings to change the audio format (Default = m4a).")
+    bot.reply_to(message, "MusicBot Help:\n\nSend me the title or description of a song or audio you want to find, "
+                          "and I'll fetch it for you. 🎶\n"
+                          "Use /settings to change the audio format. Default format: m4a. 🎧")
+
 
 @bot.message_handler(commands=['on'])
 def handle_on(message):
@@ -42,7 +46,7 @@ def handle_on(message):
     global state
     state = True
     # Handle the /on command
-    bot.reply_to(message, "BOT ON")
+    bot.reply_to(message, "MusicBot activated! Let's find some awesome music. 🎉🎶")
 
 
 @bot.message_handler(commands=['off'])
@@ -50,7 +54,8 @@ def handle_off(message):
     global state
     state = False
     # Handle the /off command
-    bot.reply_to(message, "BOT OFF")
+    bot.reply_to(message, "MusicBot deactivated. You'll have to find music on your own now. 😏")
+
 
 @bot.message_handler(commands=['settings'])
 def settings(message):
@@ -70,43 +75,43 @@ def settings(message):
 def handle_callback(call):
     global audio_format
     audio_format = call.data
-    bot.send_message(call.message.chat.id, f"Audio format set to {call.data}")
+    bot.send_message(call.message.chat.id, f"Audio format set to {call.data}. Enjoy the beats! 🎵🎧")
 
 
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
     send_log(bot, message)
-    if not state and message.chat.id != admin_user and message.chat.id not in users :
+    if not state and message.chat.id != admin_user and message.chat.id not in users:
         return
 
-    global last_message_id 
-  
-    # Check if this is the same message as the previous one 
-    if last_message_id == message.message_id: 
-        return 
-        
-    # Store the current message ID as the most recent one 
+    global last_message_id
+
+    # Check if this is the same message as the previous one
+    if last_message_id == message.message_id:
+        return
+
+    # Store the current message ID as the most recent one
     last_message_id = message.message_id
 
     query = message.text
-    title, url, duration, duration_text= search(query)
+    title, url, duration, duration_text = search(query)
 
     if not url:
         # No URL found, reply with the title
-        bot.reply_to(message, title)
+        bot.reply_to(message, f"Sorry, I couldn't find any matching songs for '{query}'. 😔🎵")
         return
     else:
         # Download audio file
-        wait = bot.reply_to(message, f"{title}")
+        wait = bot.reply_to(message, f"Found a great song: {title}. Let me get it for you. 🎧")
 
         if duration >= 3600:
-            bot.reply_to(message, "The audio is too long to be processed")
+            bot.reply_to(message, "Oops! The audio is too long to be processed. Try a shorter one. 😅")
             return
 
         if duration >= 900:
             global temp_audio_format
             temp_audio_format = 'best'
-            bot.send_message(message.chat.id, f"Audio file too large, sending in fastest format possible.")
+            bot.send_message(message.chat.id, f"The audio file is quite large. Sending in the fastest format possible. ⚡")
 
         if temp_audio_format:
             response, audio_file, thumbnail = download_audio(url, temp_audio_format)
@@ -117,16 +122,21 @@ def handle_other_messages(message):
 
         if not audio_file:
             # Error downloading audio file
-            bot.reply_to(message, response)
+            bot.reply_to(message, f"Sorry, I couldn't download the audio file. Please try again later. 😞🎵")
             return
         else:
             try:
                 # Send photo with caption
-                bot.send_photo(message.chat.id, thumbnail, caption=f"{title}\n\n{duration_text}\n\n{url}",reply_to_message_id=message.message_id)
+                bot.send_photo(message.chat.id, thumbnail, caption=f"{title}\n\n{duration_text}\n\n{url}",
+                               reply_to_message_id=message.message_id)
             except:
                 # Send message with caption
                 bot.reply_to(message, f"{title}\n\n{duration_text}\n\n{url}")
 
             # Send audio file
             with open(audio_file, 'rb') as f:
-                bot.send_audio(message.chat.id, f,title=title)
+                bot.send_audio(message.chat.id, f, title=title)
+
+# Run the Flask app
+if __name__ == '__main__':
+    app.run()
