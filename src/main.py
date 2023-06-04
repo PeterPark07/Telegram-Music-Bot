@@ -88,7 +88,7 @@ def handle_other_messages(message):
     last_message_id = message.message_id
 
     query = message.text
-    title, url, duration = search(query)
+    title, url, duration, duration_text= search(query)
 
     if not url:
         # No URL found, reply with the title
@@ -107,11 +107,11 @@ def handle_other_messages(message):
         else:
             try:
                 # Send photo with caption
-                bot.send_photo(message.chat.id, thumbnail, caption=f"{title}\n\n{duration}\n\n{url}",
+                bot.send_photo(message.chat.id, thumbnail, caption=f"{title}\n\n{duration_text}\n\n{url}",
                                reply_to_message_id=message.message_id)
             except:
                 # Send message with caption
-                bot.reply_to(message, f"{title}\n\n{duration}\n\n{url}")
+                bot.reply_to(message, f"{title}\n\n{duration_text}\n\n{url}")
 
             # Send audio file
             with open(audio_file, 'rb') as f:
