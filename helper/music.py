@@ -18,7 +18,15 @@ def search(query):
     duration = selected_video['duration']
     duration_text = selected_video['accessibility']['duration']
 
-    return title, url, duration ,duration_text
+    duration = duration.split(':')
+        if len(duration) == 2:
+            seconds = int(duration[0]) * 60 + int(duration[1])
+        elif len(duration) == 3:
+            seconds = int(duration[0]) * 3600 + int(duration[1]) * 60 + int(duration[2])
+        else:
+            seconds = int(duration[0])
+
+    return title, url, seconds, duration_text
 
 def download_audio(url , codec):
     # YouTube DL options for audio extraction
