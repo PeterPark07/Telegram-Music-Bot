@@ -107,8 +107,7 @@ def handle_other_messages(message):
         else:
             try:
                 # Send photo with caption
-                bot.send_photo(message.chat.id, thumbnail, caption=f"{title}\n\n{duration_text}\n\n{url}",
-                               reply_to_message_id=message.message_id)
+                bot.send_photo(message.chat.id, thumbnail, caption=f"{title}\n\n{duration_text}\n\n{url}",reply_to_message_id=message.message_id)
             except:
                 # Send message with caption
                 bot.reply_to(message, f"{title}\n\n{duration_text}\n\n{url}")
