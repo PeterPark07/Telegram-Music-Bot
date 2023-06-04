@@ -96,8 +96,19 @@ def handle_other_messages(message):
         return
     else:
         # Download audio file
-        wait = bot.reply_to(message, f"{title}\n{duration}")
-        return
+        wait = bot.reply_to(message, f"{title}")
+        parts = duration.split(':')
+        if len(parts) == 2:
+            seconds = int(parts[0]) * 60 + int(parts[1])
+        elif len(duration) == 3:
+            seconds = int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
+        else :
+            seconds = int(parts)
+        
+        if seconds >= 900:
+            global audio_format
+            audio_format = 'best'
+
         response, audio_file, thumbnail = download_audio(url, audio_format)
         bot.delete_message(message.chat.id, wait.message_id)
 
