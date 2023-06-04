@@ -98,19 +98,12 @@ def handle_other_messages(message):
     else:
         # Download audio file
         wait = bot.reply_to(message, f"{title}")
-        duration = duration.split(':')
-        if len(duration) == 2:
-            seconds = int(duration[0]) * 60 + int(duration[1])
-        elif len(duration) == 3:
-            seconds = int(duration[0]) * 3600 + int(duration[1]) * 60 + int(duration[2])
-        else:
-            seconds = int(duration[0])
 
-        if seconds >= 3600:
+        if duration >= 3600:
             bot.reply_to(message, "The audio is too long to be processed")
             return
 
-        if seconds >= 900:
+        if duration >= 900:
             global temp_audio_format
             temp_audio_format = 'best'
             bot.send_message(message.chat.id, f"Audio file too large, sending in fastest format possible.")
