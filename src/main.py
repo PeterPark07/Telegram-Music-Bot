@@ -96,7 +96,8 @@ def handle_other_messages(message):
         return
     else:
         # Download audio file
-        wait = bot.reply_to(message, title)
+        wait = bot.reply_to(message, f"{title}\n{duration}")
+        return
         response, audio_file, thumbnail = download_audio(url, audio_format)
         bot.delete_message(message.chat.id, wait.message_id)
 
