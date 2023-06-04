@@ -102,7 +102,7 @@ def handle_other_messages(message):
         return
     else:
         # Download audio file
-        wait = bot.reply_to(message, f"Found a great song: {title}. Let me get it for you. 🎧")
+        wait = bot.reply_to(message, f"{title}\nLet me get it for you. 🎧")
 
         if duration >= 3600:
             bot.reply_to(message, "Oops! The audio is too long to be processed. Try a shorter one. 😅")
