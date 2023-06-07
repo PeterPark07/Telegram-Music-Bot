@@ -6,6 +6,7 @@ from helper.log import send_log
 
 app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('music_bot'), threaded=False)
+bot.set_webhook(url = os.getenv('url'))
 audio_format = 'm4a'  # Default value
 temp_audio_format = None
 state = False
