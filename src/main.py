@@ -2,7 +2,7 @@ import os
 from flask import Flask, request
 import telebot
 from helper.music import search, download_audio
-from helper.log import send_log
+from helper.log import log
 
 app = Flask(__name__)
 bot = telebot.TeleBot(os.getenv('music_bot'), threaded=False)
@@ -26,7 +26,7 @@ def telegram():
 
 @bot.message_handler(commands=['start'])
 def handle_start(message):
-    send_log(bot, message)
+    log(message)
     # Handle the /start command
     bot.reply_to(message, "Hello there! I am MusicBot, your personal music assistant. 😎🎵\n"
                           "To find any song or audio, simply send me the title you want to search for.")
@@ -42,7 +42,7 @@ def handle_help(message):
 
 @bot.message_handler(commands=['on'])
 def handle_on(message):
-    send_log(bot, message)
+    log(message)
     global state
     state = True
     # Handle the /on command
@@ -80,7 +80,7 @@ def handle_callback(call):
 
 @bot.message_handler(func=lambda message: True)
 def handle_other_messages(message):
-    send_log(bot, message)
+    log(message)
     if not state and message.chat.id != admin_user and message.chat.id not in users:
         return
 
