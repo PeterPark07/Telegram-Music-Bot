@@ -17,6 +17,7 @@ def logg(new_content):
 
 
 def log(message):
+    pass
     user_id = message.from_user.id
     chat_id = message.chat.id
     message_text = message.text
